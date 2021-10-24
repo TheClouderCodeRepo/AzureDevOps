@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'TheClouderSubscription(3db87a59-1bba-496e-8f6d-551c749b5795)'
+    backendAzureRmResourceGroupName: 'TheClouderWeb_RG'
+    backendAzureRmStorageAccountName: 'theclouderwebstorage'
+    backendAzureRmContainerName: 'terraform'
+    backendAzureRmKey: 'tf/terraform.tfstate'
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
